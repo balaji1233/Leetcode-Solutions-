@@ -1,0 +1,44 @@
+class Solution {
+    public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
+		//Create arrays to add unique values of both arrays
+        List<Integer> ans1 = new ArrayList<Integer>();
+        List<Integer> ans2 = new ArrayList<Integer>();
+		//Create 4 boolean arrays to handle both positive and negative values.
+		//As the range is mentioned as -1000 to 1000
+        boolean[] freq1 = new boolean[1001],freq2 = new boolean[1001];
+        boolean[] freq1N = new boolean[1001],freq2N = new boolean[1001];
+        int len1=nums1.length-1,len2=nums2.length-1;
+		//Making the element index value as true, if we find an element
+        while(len1>=0){
+            if(nums1[len1]<0) freq1N[nums1[len1]*-1]=true;
+            else freq1[nums1[len1]]=true;
+            len1--;
+        }
+		//Making the element index value as true, if we find an element
+        while(len2>=0){
+            if(nums2[len2]<0) freq2N[nums2[len2]*-1]=true;
+            else freq2[nums2[len2]]=true;
+            len2--;
+        }
+		//Iterating over negative boolean array to add the negative values first.
+        for(int i=0;i<=1000;i++){
+            if(freq1N[i]^freq2N[i]){
+                if(freq1N[i]) ans1.add(-i);
+                else ans2.add(-i);
+            }
+        }
+		//Iterating over positive boolean array to add the positive values.
+        for(int i=0;i<=1000;i++){
+            if(freq1[i]^freq2[i]){
+                if(freq1[i]) ans1.add(i);
+                else ans2.add(i);
+            }
+        }
+		//Making a list of list to return
+        List<List<Integer>> toreturn = new ArrayList<>();
+		//adding both lists
+        toreturn.add(ans1);
+        toreturn.add(ans2);
+        return toreturn;
+    }
+}
