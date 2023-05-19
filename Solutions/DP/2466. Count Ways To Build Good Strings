@@ -1,0 +1,21 @@
+class Solution {
+    final int mod=1000000007;
+    public long solve(int i, int zero,int one,long[] dp){
+        if(i==0) return 1;
+        if(i<0) return 0;
+        if(dp[i]!=-1) return dp[i];
+        
+        return dp[i]=solve(i-zero,zero,one,dp)%mod + solve(i-one,zero,one,dp)%mod;
+    }
+    public int countGoodStrings(int low, int high, int zero, int one) {
+        
+        long[] dp=new long[100001];
+        Arrays.fill(dp,-1);
+        
+        long ans=0;
+        for(int i=low;i<=high;i++){
+            ans=ans%mod +solve(i,zero,one,dp);
+        }
+        return (int)ans%mod;
+    }
+}
